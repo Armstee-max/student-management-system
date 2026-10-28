@@ -174,6 +174,93 @@ class Student_manager:
             print("Search doesn't match records.")
             print("------------------------------")
 
+    def update_records(self):
+        studentid = input("Enter StudentID: ")
+        found = False
+        for student in self.students:
+            if student.student_id == studentid:
+                found = True
+                print("------------------------")
+                print("CURRENT RECORD")
+                print("------------------------")
+                print(f"StudentID: {student.student_id}")
+                print(f"Name: {student.name}")
+                print(f"Age: {student.age}")
+                print(f"Course: {student.course}")
+                if student.score == None:
+                    print("Score: Not recorded.")
+                else:
+                    print(f"Score: {student.score}")
+                print("------------------------")
+                while True:
+                    print("1. Update Name")
+                    print("2. Update Age")
+                    print("3. Update Course")
+                    decision = input("Choose an option: ")
+                    if decision == "1":
+                        new_name = input("Enter new name: ")
+                        student.name = new_name
+                        print("-----------------")
+                        print("Record Updated.")
+                        print("-----------------")
+                        self.student_data = []
+                        for student in self.students:
+                            student_dict = {
+                                "studentid": student.student_id,
+                                "name": student.name,
+                                "age": student.age,
+                                "course": student.course,
+                                "score": student.score
+                            }
+                            self.student_data.append(student_dict)
+                        with open("students.json", "w") as file:
+                            json.dump(self.student_data, file)
+                        break
+                    if decision == "2":
+                        new_age = int(input("Enter new age: "))
+                        student.age = new_age
+                        print("----------------")
+                        print("Record Updated.")
+                        print("----------------")
+                        self.student_data = []
+                        for student in self.students:
+                            student_dict = {
+                                "studentid": student.student_id,
+                                "name": student.name,
+                                "age": student.age,
+                                "course": student.course,
+                                "score": student.score
+                            }
+                            self.student_data.append(student_dict)
+                        with open("students.json", "w") as file:
+                            json.dump(self.student_data, file)
+                        break
+                    if decision == "3":
+                        new_course = input("Enter new course: ")
+                        student.course = new_course
+                        print("----------------")
+                        print("Record Updated.")
+                        print("----------------")
+                        self.student_data = []
+                        for student in self.students:
+                            student_dict = {
+                                "studentid": student.student_id,
+                                "name": student.name,
+                                "age": student.age,
+                                "course": student.course,
+                                "score": student.score
+                            }
+                            self.student_data.append(student_dict)
+                        with open("students.json", "w") as file:
+                            json.dump(self.student_data, file)
+                        break
+
+        if not found:
+            print("------------------------------")
+            print("Search doesn't match records.")
+            print("------------------------------")
+
+
 
 student = Student_manager()
 
@@ -199,7 +286,7 @@ while True:
     elif choice == "3":
         student.search_students()
     elif choice == "4":
-        pass
+        student.update_records()
     elif choice == "5":
         pass
     elif choice == "6":
