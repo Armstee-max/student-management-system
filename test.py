@@ -9,3 +9,8 @@ class Student_manager:
 
     def method(self):
         Student()
+
+
+score = None
+
+print(f"Score: {score}")

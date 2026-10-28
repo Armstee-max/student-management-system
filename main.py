@@ -117,8 +117,33 @@ class Student_manager:
         with open("students.json", "w") as file:
             json.dump(self.student_data, file)
 
+    def view_students(self):
+        if not self.students:
+            print("-----------------")
+            print("No Student Found")
+            print("-----------------")
+
+        for student in self.students:
+            student_dict = {
+                "studentid": student.student_id,
+                "name": student.name,
+                "age": student.age,
+                "course": student.course,
+                "score": student.score
+            }
+            print("-------------------------------")
+            print(f"StudentID: {student_dict['studentid']}")
+            print(f"Name: {student_dict['name']}")
+            print(f"Age: {student_dict['age']}")
+            print(f"Course: {student_dict['course']}")
+            if student_dict["score"] == None:
+                print("Score: Not Recorded")
+            else:
+                print(f"Score: {student_dict['score']}")
+        print("-------------------------------")
 
 student = Student_manager()
+
 while True:
     print("=====STUDENT MANGEMENT SYSTEM=====")
     print("1. Register Student")
@@ -137,7 +162,7 @@ while True:
     if choice == "1":
         student.save_students()
     elif choice == "2":
-        pass
+        student.view_students()
     elif choice == "3":
         pass
     elif choice == "4":
