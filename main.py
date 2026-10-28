@@ -25,7 +25,7 @@ class Student_manager:
                 data["studentid"],
                 data["name"],
                 data["age"],
-                data["course"]
+                data["course"],
                 data["score"]
             )
             students.append(one_student)
@@ -42,6 +42,11 @@ class Student_manager:
                 return False
         self.name = input("Enter Student Name: ")
         self.age = int(input("Enter Student Age: "))
+        if self.age <= 0:
+            print("-------------")
+            print("Invalid Age!")
+            print("-------------")
+            return False
         self.course = input("Enter Student Course: ")
         self.score = None
         one_student = Student(
@@ -58,13 +63,38 @@ class Student_manager:
         studentid = input("Enter StudentID: ")
         found = False
         for student in self.students:
-            if student.studnentid == studentid:
+            if student.student_id == studentid:
                 found = True
-                add_score = int(input("Enter Score: "))
+                print(f"Student Name: {student.name}")
+                add_score = float(input("Enter Score: "))
+                if add_score < 0 or add_score > 100:
+                    print("---------------------------------")
+                    print("Score must be between 0 and 100.")
+                    print("---------------------------------")
+                    return False
                 student.score = add_score
                 print("--------------")
                 print("Score Added!")
                 print("--------------")
+        if not found:
+            print("-------------------------------")
+            print("Search doesn't match records.")
+            print("-------------------------------")
+            return False
+
+        self.student_data = []
+        for student in self.students:
+            student_dict = {
+                "studentid": student.student_id,
+                "name": student.name,
+                "age": student.age,
+                "course": student.course,
+                "score": student.score
+            }
+            self.student_data.append(student_dict)
+
+        with open("students.json", "w") as file:
+            json.dump(self.student_data, file)
 
     def save_students(self):
         new_student = self.register_student()
@@ -81,7 +111,7 @@ class Student_manager:
                 "name": student.name,
                 "age": student.age,
                 "course": student.course,
-                "scores": student.score
+                "score": student.score
             }
             self.student_data.append(student_dict)
         with open("students.json", "w") as file:
@@ -115,7 +145,7 @@ while True:
     elif choice == "5":
         pass
     elif choice == "6":
-        pass
+        student.record_scores()
     elif choice == "7":
         pass
     elif choice == "8":
