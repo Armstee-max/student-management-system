@@ -122,6 +122,7 @@ class Student_manager:
             print("-----------------")
             print("No Student Found")
             print("-----------------")
+            return False
 
         for student in self.students:
             student_dict = {
@@ -141,6 +142,38 @@ class Student_manager:
             else:
                 print(f"Score: {student_dict['score']}")
         print("-------------------------------")
+
+    def search_students(self):
+        studentid = input("Enter StudentID: ")
+        found = False
+        for student in self.students:
+            if student.student_id == studentid:
+                found = True
+                student_dict = {
+                    "studentid": student.student_id,
+                    "name": student.name,
+                    "age": student.age,
+                    "course": student.course,
+                    "score": student.score
+                }
+                print("----------------------------")
+                print("RECORD FOUND")
+                print("----------------------------")
+                print(f"StudentID: {student_dict['studentid']}")
+                print(f"Name: {student_dict['name']}")
+                print(f"Age: {student_dict['age']}")
+                print(f"Course: {student_dict['course']}")
+                if student_dict["score"] == None:
+                    print("Score: Not recorded")
+                else:
+                    print(f"Score: {student_dict['score']}")
+                print("----------------------------")
+
+        if not found:
+            print("------------------------------")
+            print("Search doesn't match records.")
+            print("------------------------------")
+
 
 student = Student_manager()
 
@@ -164,7 +197,7 @@ while True:
     elif choice == "2":
         student.view_students()
     elif choice == "3":
-        pass
+        student.search_students()
     elif choice == "4":
         pass
     elif choice == "5":
