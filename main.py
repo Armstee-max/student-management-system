@@ -323,7 +323,18 @@ class Student_manager:
                     print("Grade F")
         print('--------------------')
 
-    
+    def export_csv(self):
+        with open("students.csv", "w") as file:
+            content = csv.writer(file)
+            content.writerow(["StudentID", "Name", "Age", "Course", "Score"])
+            for student in self.students:
+                content.writerow([
+                    student.student_id,
+                    student.name,
+                    student.age,
+                    student.course,
+                    student.score
+                ])
                             
 
 student_obj = Student_manager()
@@ -358,7 +369,7 @@ while True:
     elif choice == "7":
         student_obj.view_grades()
     elif choice == "8":
-        pass
+        student_obj.export_csv()
     elif choice == "9":
         pass
     elif choice == "10":
