@@ -192,7 +192,7 @@ class Student_manager:
                 else:
                     print(f"Score: {student.score}")
                 print("------------------------")
-                while True:
+                while found:
                     print("1. Update Name")
                     print("2. Update Age")
                     print("3. Update Course")
@@ -260,9 +260,73 @@ class Student_manager:
             print("Search doesn't match records.")
             print("------------------------------")
 
+    def delete_records(self):
+        studentid = input("Enter StudentID: ")
+        found = False
+        for student in self.students:
+            if student.student_id == studentid:
+                found = True
+                print(f"StudentID: {student.student_id}")
+                print(f"Student Name: {student.name}")
+                while found:
+                    decision = input("Press Enter⏎ to delete record or C to cancel: ")
+                    if decision == "":
+                        self.students.remove(student)
+                        self.student_data = []
+                        for student in self.students:
+                            student_dict = {
+                                "studentid": student.student_id,
+                                "name": student.name,
+                                "age": student.age,
+                                "course": student.course,
+                                "score": student.score
+                            }
+                            self.student_data.append(student_dict)
+                        with open("students.json", "w") as file:
+                            json.dump(self.student_data, file)
+                        print("-----------------------------")
+                        print("Student Deleted Sucessfully.")
+                        print("-----------------------------")
+                        break
+                    if decision.lower() == "c":
+                        print("-----------------")
+                        print("Delete Canceled.")
+                        print("-----------------")
+                        break
+        if not found:
+            print("-------------------------------")
+            print("Search doesn't match records.")
+            print("-------------------------------")
 
 
-student = Student_manager()
+    def view_grades(self):
+        print("====STUDENT GRADES====")
+        for student in self.students:
+            print('--------------------')
+            print(f"Student name: {student.name}")
+
+            if student.score is None:
+                print("Score: Not recorded.")
+                print("Grade: Not available.")
+            else:
+                print(f"Score: {student.score}")
+
+                if 100 >= student.score >= 70:
+                    print("Grade A")
+                elif 69 >= student.score >= 60:
+                    print("Grade B")
+                elif 59 >= student.score >= 50:
+                    print("Grade C")
+                elif 49 >= student.score >= 45:
+                    print("Grade D")
+                elif 44 >= student.score >= 0:
+                    print("Grade F")
+        print('--------------------')
+
+    
+                            
+
+student_obj = Student_manager()
 
 while True:
     print("=====STUDENT MANGEMENT SYSTEM=====")
@@ -280,19 +344,19 @@ while True:
     choice = input("Choose an Option: ")
 
     if choice == "1":
-        student.save_students()
+        student_obj.save_students()
     elif choice == "2":
-        student.view_students()
+        student_obj.view_students()
     elif choice == "3":
-        student.search_students()
+        student_obj.search_students()
     elif choice == "4":
-        student.update_records()
+        student_obj.update_records()
     elif choice == "5":
-        pass
+        student_obj.delete_records()
     elif choice == "6":
-        student.record_scores()
+        student_obj.record_scores()
     elif choice == "7":
-        pass
+        student_obj.view_grades()
     elif choice == "8":
         pass
     elif choice == "9":
