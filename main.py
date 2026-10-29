@@ -122,7 +122,10 @@ class Student_manager:
             print(f"Name: {student.name}")
             print(f"Age: {student.age}")
             print(f"Course: {student.course}")
-            print(f"Score: {student.score}")
+            if student.score == None:
+                print("Score: Not recorded.")
+            else:
+                print(f"Score: {student.score}")
         print("----------------------")
 
     def search_students(self):
