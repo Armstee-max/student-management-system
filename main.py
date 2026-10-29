@@ -140,24 +140,17 @@ class Student_manager:
         for student in self.students:
             if student.student_id == studentid:
                 found = True
-                student_dict = {
-                    "studentid": student.student_id,
-                    "name": student.name,
-                    "age": student.age,
-                    "course": student.course,
-                    "score": student.score
-                }
                 print("----------------------------")
                 print("RECORD FOUND")
                 print("----------------------------")
-                print(f"StudentID: {student_dict['studentid']}")
-                print(f"Name: {student_dict['name']}")
-                print(f"Age: {student_dict['age']}")
-                print(f"Course: {student_dict['course']}")
-                if student_dict["score"] == None:
+                print(f"StudentID: {student.student_id}")
+                print(f"Name: {student.name}")
+                print(f"Age: {student.age}")
+                print(f"Course: {student.course}")
+                if student.score == None:
                     print("Score: Not recorded")
                 else:
-                    print(f"Score: {student_dict['score']}")
+                    print(f"Score: {student.score}")
                 print("----------------------------")
 
         if not found:
