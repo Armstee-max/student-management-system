@@ -59,6 +59,20 @@ class Student_manager:
 
         return one_student
 
+    def save_to_file(self):
+        self.student_data = []
+        for student in self.students:
+            student_dict = {
+                "studentid": student.student_id,
+                "name": student.name,
+                "age": student.age,
+                "course": student.course,
+                "score": student.score
+            }
+            self.student_data.append(student_dict)
+        with open("students.json", "w") as file:
+            json.dump(self.student_data, file)
+
     def record_scores(self):
         studentid = input("Enter StudentID: ")
         found = False
@@ -82,19 +96,7 @@ class Student_manager:
             print("-------------------------------")
             return False
 
-        self.student_data = []
-        for student in self.students:
-            student_dict = {
-                "studentid": student.student_id,
-                "name": student.name,
-                "age": student.age,
-                "course": student.course,
-                "score": student.score
-            }
-            self.student_data.append(student_dict)
-
-        with open("students.json", "w") as file:
-            json.dump(self.student_data, file)
+        self.save_to_file()
 
     def save_students(self):
         new_student = self.register_student()
@@ -104,18 +106,7 @@ class Student_manager:
             print("Student Registered Successfully!")
             print("----------------------------------")
 
-        self.student_data = []
-        for student in self.students:
-            student_dict = {
-                "studentid": student.student_id,
-                "name": student.name,
-                "age": student.age,
-                "course": student.course,
-                "score": student.score
-            }
-            self.student_data.append(student_dict)
-        with open("students.json", "w") as file:
-            json.dump(self.student_data, file)
+        self.save_to_file()
 
     def view_students(self):
         if not self.students:
@@ -187,18 +178,7 @@ class Student_manager:
                         print("-----------------")
                         print("Record Updated.")
                         print("-----------------")
-                        self.student_data = []
-                        for student in self.students:
-                            student_dict = {
-                                "studentid": student.student_id,
-                                "name": student.name,
-                                "age": student.age,
-                                "course": student.course,
-                                "score": student.score
-                            }
-                            self.student_data.append(student_dict)
-                        with open("students.json", "w") as file:
-                            json.dump(self.student_data, file)
+                        self.save_to_file()
                         break
                     if decision == "2":
                         new_age = int(input("Enter new age: "))
@@ -206,18 +186,7 @@ class Student_manager:
                         print("----------------")
                         print("Record Updated.")
                         print("----------------")
-                        self.student_data = []
-                        for student in self.students:
-                            student_dict = {
-                                "studentid": student.student_id,
-                                "name": student.name,
-                                "age": student.age,
-                                "course": student.course,
-                                "score": student.score
-                            }
-                            self.student_data.append(student_dict)
-                        with open("students.json", "w") as file:
-                            json.dump(self.student_data, file)
+                        self.save_to_file()
                         break
                     if decision == "3":
                         new_course = input("Enter new course: ")
@@ -225,18 +194,7 @@ class Student_manager:
                         print("----------------")
                         print("Record Updated.")
                         print("----------------")
-                        self.student_data = []
-                        for student in self.students:
-                            student_dict = {
-                                "studentid": student.student_id,
-                                "name": student.name,
-                                "age": student.age,
-                                "course": student.course,
-                                "score": student.score
-                            }
-                            self.student_data.append(student_dict)
-                        with open("students.json", "w") as file:
-                            json.dump(self.student_data, file)
+                        self.save_to_file
                         break
 
         if not found:
@@ -256,18 +214,7 @@ class Student_manager:
                     decision = input("Press Enter⏎ to delete record or C to cancel: ")
                     if decision == "":
                         self.students.remove(student)
-                        self.student_data = []
-                        for student in self.students:
-                            student_dict = {
-                                "studentid": student.student_id,
-                                "name": student.name,
-                                "age": student.age,
-                                "course": student.course,
-                                "score": student.score
-                            }
-                            self.student_data.append(student_dict)
-                        with open("students.json", "w") as file:
-                            json.dump(self.student_data, file)
+                        self.save_to_file()
                         print("-----------------------------")
                         print("Student Deleted Sucessfully.")
                         print("-----------------------------")
