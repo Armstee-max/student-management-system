@@ -124,24 +124,15 @@ class Student_manager:
             print("-----------------")
             return False
 
+        print("====STUDENTS====")
         for student in self.students:
-            student_dict = {
-                "studentid": student.student_id,
-                "name": student.name,
-                "age": student.age,
-                "course": student.course,
-                "score": student.score
-            }
-            print("-------------------------------")
-            print(f"StudentID: {student_dict['studentid']}")
-            print(f"Name: {student_dict['name']}")
-            print(f"Age: {student_dict['age']}")
-            print(f"Course: {student_dict['course']}")
-            if student_dict["score"] == None:
-                print("Score: Not Recorded")
-            else:
-                print(f"Score: {student_dict['score']}")
-        print("-------------------------------")
+            print("----------------------")
+            print(f"StudentID: {student.student_id}")
+            print(f"Name: {student.name}")
+            print(f"Age: {student.age}")
+            print(f"Course: {student.course}")
+            print(f"Score: {student.score}")
+        print("----------------------")
 
     def search_students(self):
         studentid = input("Enter StudentID: ")
