@@ -397,9 +397,9 @@ else:
         elif choice == "8":
             student_obj.export_csv()
         elif choice == "9":
-            print("---------")
-            print("Adios!")
-            print("---------")
+            print("-------------------")
+            print("¡Adiós y gracias!")
+            print("-------------------")
             break
         else:
             print("-----------------------------")
