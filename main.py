@@ -283,8 +283,7 @@ while True:
     print("6. Record Scores")
     print("7. View Grades")
     print("8. Export Records to CSV")
-    print("9. Fetch External Data")
-    print("10. Exit")
+    print("9. Exit")
 
     choice = input("Choose an Option: ")
 
@@ -305,8 +304,6 @@ while True:
     elif choice == "8":
         student_obj.export_csv()
     elif choice == "9":
-        pass
-    elif choice == "10":
         print("---------")
         print("Adios!")
         print("---------")
