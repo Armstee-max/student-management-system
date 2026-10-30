@@ -31,15 +31,17 @@ class Student_manager:
                 )
                 students.append(one_student)
         except FileNotFoundError:
-            print("--------------------")
+            print("---------------------")
             print("Error Message:")
             print("File doesn't exist!")
-            print("--------------------")
-        except json.JSONDecodeError:
             print("---------------------")
+            return None
+        except json.JSONDecodeError:
+            print("----------------------")
             print("Error Message:")
             print("The file is invalid!")
-            print("---------------------")
+            print("----------------------")
+            return None
 
         return students
 
@@ -82,6 +84,7 @@ class Student_manager:
             print("------------------------")
             print("Course cannot be empty!")
             print("------------------------")
+            return False
 
         self.score = None
 
@@ -259,7 +262,7 @@ class Student_manager:
                         print("----------------")
                         print("Record Updated.")
                         print("----------------")
-                        self.save_to_file
+                        self.save_to_file()
                         break
                     else:
                         print("---------------------------")
@@ -359,44 +362,48 @@ class Student_manager:
 
 student_obj = Student_manager()
 
-while True:
-    print("=====STUDENT MANGEMENT SYSTEM=====")
-    print("1. Register Student")
-    print("2. View All Students")
-    print("3. Search Students")
-    print("4. Update Records")
-    print("5. Delete Records")
-    print("6. Record Scores")
-    print("7. View Grades")
-    print("8. Export Records to CSV")
-    print("9. Exit")
-
-    choice = input("Choose an Option: ")
-
-    if choice == "1":
-        student_obj.save_students()
-    elif choice == "2":
-        student_obj.view_students()
-    elif choice == "3":
-        student_obj.search_students()
-    elif choice == "4":
-        student_obj.update_records()
-    elif choice == "5":
-        student_obj.delete_records()
-    elif choice == "6":
-        student_obj.record_scores()
-    elif choice == "7":
-        student_obj.view_grades()
-    elif choice == "8":
-        student_obj.export_csv()
-    elif choice == "9":
-        print("---------")
-        print("Adios!")
-        print("---------")
-        break
-    else:
-        print("-----------------------------")
-        print("Invalid Choice. Try Again!")
-        print("-----------------------------")
+if student_obj.students == None:
+    print("Program Couldn't load.")
+    print("----------------------")
+else:
+    while True:
+        print("=====STUDENT MANGEMENT SYSTEM=====")
+        print("1. Register Student")
+        print("2. View All Students")
+        print("3. Search Students")
+        print("4. Update Records")
+        print("5. Delete Records")
+        print("6. Record Scores")
+        print("7. View Grades")
+        print("8. Export Records to CSV")
+        print("9. Exit")
+    
+        choice = input("Choose an Option: ")
+    
+        if choice == "1":
+            student_obj.save_students()
+        elif choice == "2":
+            student_obj.view_students()
+        elif choice == "3":
+            student_obj.search_students()
+        elif choice == "4":
+            student_obj.update_records()
+        elif choice == "5":
+            student_obj.delete_records()
+        elif choice == "6":
+            student_obj.record_scores()
+        elif choice == "7":
+            student_obj.view_grades()
+        elif choice == "8":
+            student_obj.export_csv()
+        elif choice == "9":
+            print("---------")
+            print("Adios!")
+            print("---------")
+            break
+        else:
+            print("-----------------------------")
+            print("Invalid Choice. Try Again!")
+            print("-----------------------------")
 
 
