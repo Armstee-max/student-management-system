@@ -1,4 +1,4 @@
-import json, csv, requests
+import json, csv
 
 
 class Student:
