@@ -15,40 +15,76 @@ class Student_manager:
         self.students = self.load_students()
 
     def load_students(self):
-        with open("students.json", "r") as file:
-            load = json.load(file)
-
         students = []
 
-        for data in load:
-            one_student = Student(
-                data["studentid"],
-                data["name"],
-                data["age"],
-                data["course"],
-                data["score"]
-            )
-            students.append(one_student)
+        try:
+            with open("students.json", "r") as file:
+                load = json.load(file)
+
+            for data in load:
+                one_student = Student(
+                    data["studentid"],
+                    data["name"],
+                    data["age"],
+                    data["course"],
+                    data["score"]
+                )
+                students.append(one_student)
+        except FileNotFoundError:
+            print("--------------------")
+            print("Error Message:")
+            print("File doesn't exist!")
+            print("--------------------")
+        except json.JSONDecodeError:
+            print("---------------------")
+            print("Error Message:")
+            print("The file is invalid!")
+            print("---------------------")
 
         return students
 
     def register_student(self):
         self.student_id = input("Enter StudentID: ")
+        if not self.student_id:
+            print("----------------------------")
+            print("StudentID cannot be empty!")
+            print("----------------------------")
+            return False
         for student in self.students:
             if student.student_id == self.student_id:
                 print("-----------------------------")
                 print("StudentID Already Exists!")
                 print("-----------------------------")
                 return False
+            
         self.name = input("Enter Student Name: ")
-        self.age = int(input("Enter Student Age: "))
+        if not self.name:
+            print("-------------------------")
+            print("Students must have name!")
+            print("-------------------------")
+            return False
+        
+        try:
+            self.age = int(input("Enter Student Age: "))
+        except ValueError:
+            print("----------------------")
+            print("Age must be a number!")
+            print("----------------------")
+            return False
         if self.age <= 0:
             print("-------------")
             print("Invalid Age!")
             print("-------------")
             return False
+        
         self.course = input("Enter Student Course: ")
+        if not self.course:
+            print("------------------------")
+            print("Course cannot be empty!")
+            print("------------------------")
+
         self.score = None
+
         one_student = Student(
             self.student_id,
             self.name,
@@ -61,6 +97,7 @@ class Student_manager:
 
     def save_to_file(self):
         self.student_data = []
+
         for student in self.students:
             student_dict = {
                 "studentid": student.student_id,
@@ -70,17 +107,30 @@ class Student_manager:
                 "score": student.score
             }
             self.student_data.append(student_dict)
+            
         with open("students.json", "w") as file:
             json.dump(self.student_data, file)
 
     def record_scores(self):
+        if not self.students:
+            print("---------------------")
+            print("No Student Recorded.")
+            print("---------------------")
+            return False
+        
         studentid = input("Enter StudentID: ")
         found = False
         for student in self.students:
             if student.student_id == studentid:
                 found = True
                 print(f"Student Name: {student.name}")
-                add_score = float(input("Enter Score: "))
+                try:
+                    add_score = float(input("Enter Score: "))
+                except ValueError:
+                    print("------------------------")
+                    print("Score Must be a number!")
+                    print("------------------------")
+                    return False
                 if add_score < 0 or add_score > 100:
                     print("---------------------------------")
                     print("Score must be between 0 and 100.")
@@ -110,9 +160,9 @@ class Student_manager:
 
     def view_students(self):
         if not self.students:
-            print("-----------------")
-            print("No Student Found")
-            print("-----------------")
+            print("---------------------")
+            print("No Student Recorded.")
+            print("---------------------")
             return False
 
         print("====STUDENTS====")
@@ -129,6 +179,12 @@ class Student_manager:
         print("----------------------")
 
     def search_students(self):
+        if not self.students:
+            print("---------------------")
+            print("No Student Recorded.")
+            print("---------------------")
+            return False
+        
         studentid = input("Enter StudentID: ")
         found = False
         for student in self.students:
@@ -153,6 +209,12 @@ class Student_manager:
             print("------------------------------")
 
     def update_records(self):
+        if not self.students:
+            print("---------------------")
+            print("No Student Recorded.")
+            print("---------------------")
+            return False
+        
         studentid = input("Enter StudentID: ")
         found = False
         for student in self.students:
@@ -183,7 +245,7 @@ class Student_manager:
                         print("-----------------")
                         self.save_to_file()
                         break
-                    if decision == "2":
+                    elif decision == "2":
                         new_age = int(input("Enter new age: "))
                         student.age = new_age
                         print("----------------")
@@ -191,7 +253,7 @@ class Student_manager:
                         print("----------------")
                         self.save_to_file()
                         break
-                    if decision == "3":
+                    elif decision == "3":
                         new_course = input("Enter new course: ")
                         student.course = new_course
                         print("----------------")
@@ -199,6 +261,10 @@ class Student_manager:
                         print("----------------")
                         self.save_to_file
                         break
+                    else:
+                        print("---------------------------")
+                        print("Invalid Choice. Try Again!")
+                        print("---------------------------")
 
         if not found:
             print("------------------------------")
@@ -206,6 +272,12 @@ class Student_manager:
             print("------------------------------")
 
     def delete_records(self):
+        if not self.students:
+            print("---------------------")
+            print("No Student Recorded.")
+            print("---------------------")
+            return False
+        
         studentid = input("Enter StudentID: ")
         found = False
         for student in self.students:
@@ -213,6 +285,7 @@ class Student_manager:
                 found = True
                 print(f"StudentID: {student.student_id}")
                 print(f"Student Name: {student.name}")
+                print("Are you sure you want to delete this record?")
                 while found:
                     decision = input("Press Enter⏎ to delete record or C to cancel: ")
                     if decision == "":
@@ -222,11 +295,15 @@ class Student_manager:
                         print("Student Deleted Sucessfully.")
                         print("-----------------------------")
                         break
-                    if decision.lower() == "c":
+                    elif decision.lower() == "c":
                         print("-----------------")
                         print("Delete Canceled.")
                         print("-----------------")
                         break
+                    else:
+                        print("---------------------------")
+                        print("Invalid Choice. Try Again!")
+                        print("---------------------------")
         if not found:
             print("-------------------------------")
             print("Search doesn't match records.")
@@ -234,6 +311,12 @@ class Student_manager:
 
 
     def view_grades(self):
+        if not self.students:
+            print("---------------------")
+            print("No student recorded.")
+            print("---------------------")
+            return False
+
         print("====STUDENT GRADES====")
         for student in self.students:
             print('--------------------')
@@ -246,15 +329,15 @@ class Student_manager:
                 print(f"Score: {student.score}")
 
                 if 100 >= student.score >= 70:
-                    print("Grade A")
+                    print("Grade: A")
                 elif 69 >= student.score >= 60:
-                    print("Grade B")
+                    print("Grade: B")
                 elif 59 >= student.score >= 50:
-                    print("Grade C")
+                    print("Grade: C")
                 elif 49 >= student.score >= 45:
-                    print("Grade D")
+                    print("Grade: D")
                 elif 44 >= student.score >= 0:
-                    print("Grade F")
+                    print("Grade: F")
         print('--------------------')
 
     def export_csv(self):
@@ -269,6 +352,9 @@ class Student_manager:
                     student.course,
                     student.score
                 ])
+        print("-------------------------------")
+        print("Records exported successfully.")
+        print("-------------------------------")
                             
 
 student_obj = Student_manager()
